@@ -1,13 +1,12 @@
 node_modules
 npm-debug.log
 
-
 .idea
 .vs
 .env
 .DS_Store
 Thumbs.db
-# local.settings.json
+local.settings.json
 
 # Ignore any generated files
 dist
