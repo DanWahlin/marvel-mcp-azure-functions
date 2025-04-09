@@ -1,15 +1,12 @@
 {
-  "name": "@codewithdan/marvel-mcp",
-  "version": "1.6.1",
-  "description": "Marvel APIs MCP Server demo",
+  "name": "marvel-mcp-azure-functions",
+  "version": "1.0.0",
+  "description": "Marvel APIs MCP Server hosted in Azure Functions",
   "license": "MIT",
   "main": "dist/{azure-functions/index.js,functions/*.js}",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  },
-  "bin": {
-    "marvel-mcp": "./dist/src/stdio.js"
   },
   "author": {
     "name": "Dan Wahlin",
@@ -17,17 +14,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danwahlin/marvel-mcp"
+    "url": "https://github.com/danwahlin/marvel-mcp-azure-functions.git"
   },
-  "homepage": "https://github.com/danwahlin/marvel-mcp",
+  "homepage": "https://github.com/danwahlin/marvel-mcp-azure-functions",
   "bugs": {
-    "url": "https://github.com/danwahlin/marvel-mcp/issues"
+    "url": "https://github.com/danwahlin/marvel-mcp-azure-functions/issues"
   },
   "type": "module",
   "engines": {
     "node": ">=20.11.0"
   },
   "keywords": [
+    "azure",
+    "functions",
+    "azure-functions",
     "mcp",
     "model-context-protocol",
     "ai",
@@ -36,19 +36,12 @@
     "marvel",
     "comics"
   ],
-  "release": {
-    "extends": "semantic-release-npm-github",
-    "branches": "main"
-  },
   "scripts": {
-    "start": "tsx ./src/index.ts",
     "clean": "rimraf dist",
     "build": "npx tsc",
     "watch": "npx tsc --watch",
-    "dev": "tsc && concurrently \"tsc --watch\" \"nodemon dist/index.js\"",
-    "release:check": "semantic-release --dry-run",
-    "func:start": "npm run update:settings && func start",
-    "update:settings": "node scripts/update-local-settings.js"
+    "update:settings": "node scripts/update-local-settings.js",
+    "start": "npm run update:settings && func start"
   },
   "dependencies": {
     "@azure/functions": "4.0.11-beta.0",
@@ -60,16 +53,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.14",
-    "concurrently": "^9.1.2",
-    "nodemon": "^3.1.9",
     "rimraf": "^5.0.0",
-    "semantic-release": "^24.2.3",
-    "semantic-release-npm-github": "^5.0.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.3",
     "typescript": "^5.8.3"
-  },
-  "files": [
-    "dist/**/*"
-  ]
+  }
 }
