@@ -109,11 +109,20 @@ MCP Server for the [Marvel Developer API](https://developer.marvel.com/documenta
 
 Sign up for a [Marvel Developer API](https://developer.marvel.com/documentation/getting_started) account and get your public and private API keys. 
 
-If you want to run it directly in an MCP host, jump to the [Use with GitHub Copilot](#use-with-github-copilot) or [Use with Claude Desktop](#use-with-claude-desktop) sections.
+If you want to the MCP server directly in an MCP host, jump to the [Use with GitHub Copilot](#use-with-github-copilot) or [Use with Claude Desktop](#use-with-claude-desktop) sections.
 
-### Run the Server Locally with MCP Inspector
+### Run the Server Locally
 
-If you'd like to run MCP Inspector locally to test the server, follow these steps:
+1. An Azure Storage Emulator is needed. There are two options:
+
+    - Start Azurite in a Docker container:
+
+      ```bash
+      docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 \
+          mcr.microsoft.com/azure-storage/azurite
+      ```
+
+    - You can use the [Azurite VS Code extension](https://marketplace.visualstudio.com/items/?itemName=Azurite.azurite). Once the extension is installed, run `Azurite: Start` through the VS Code command palette.
 
 1. Clone this repository:
 
