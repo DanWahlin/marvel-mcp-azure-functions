@@ -121,19 +121,14 @@ If you'd like to run MCP Inspector locally to test the server, follow these step
     git clone https://github.com/DanWahlin/marvel-mcp-azure-functions
     ```
 
-1. Update the `local.settings.json` file with your Marvel API keys and the API URL.
+1. Rename `.env.template ` to `.env`.
 
-    ```json
-    {
-      "IsEncrypted": false,
-      "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "node",
-        "MARVEL_PUBLIC_KEY": "YOUR_PUBLIC_KEY",
-        "MARVEL_PRIVATE_KEY": "YOUR_PRIVATE_KEY",
-        "MARVEL_API_BASE": "https://gateway.marvel.com/v1/public"
-      }
-    }
+1. Add your Marvel API public and private keys to the `.env` file.
+
+    ```bash
+    MARVEL_PUBLIC_KEY=YOUR_PUBLIC_KEY
+    MARVEL_PRIVATE_KEY=YOUR_PRIVATE_KEY
+    MARVEL_API_BASE=https://gateway.marvel.com/v1/public
     ```
 
 1. Install the required dependencies and build the project.
