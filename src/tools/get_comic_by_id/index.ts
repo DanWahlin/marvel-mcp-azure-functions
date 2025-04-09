@@ -1,4 +1,3 @@
-// src/tools/get_comic_by_id/index.ts
 import { ComicDataWrapperSchema } from "../schemas.js";
 import { httpRequest } from "../../utils.js";
 import { GetComicByIdSchema } from "./schemas.js";

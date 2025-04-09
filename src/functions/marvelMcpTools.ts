@@ -1,6 +1,6 @@
 import { app, InvocationContext } from '@azure/functions';
 import { config } from 'dotenv';
-import { convertZodSchema } from './func-utils.js';
+import { convertZodSchema } from './zodUtils.js';
 import { z } from 'zod';
 import { marvelTools } from '../tools/tools.js';
 

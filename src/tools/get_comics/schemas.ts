@@ -1,4 +1,3 @@
-// src/tools/get_comics/schemas.ts
 import { z } from 'zod';
 
 export const GetComicsSchema = z.object({

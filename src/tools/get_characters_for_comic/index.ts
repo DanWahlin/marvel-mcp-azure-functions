@@ -1,4 +1,3 @@
-// src/tools/get_characters_for_comic/index.ts
 import { CharacterDataWrapperSchema } from "../schemas.js";
 import { httpRequest, serializeQueryParams } from "../../utils.js";
 import { GetComicCharactersSchema } from "./schemas.js";

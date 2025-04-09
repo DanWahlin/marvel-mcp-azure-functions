@@ -1,4 +1,3 @@
-// src/tools/get_characters_for_comic/schemas.ts
 import { z } from 'zod';
 import { GetComicByIdSchema } from '../get_comic_by_id/schemas.js';
 

@@ -1,4 +1,3 @@
-// src/tools/get_characters/index.ts
 import { CharacterDataWrapperSchema } from "../schemas.js";
 import { httpRequest, serializeQueryParams } from "../../utils.js";
 import { GetCharactersSchema } from "./schemas.js";

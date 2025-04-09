@@ -1,4 +1,3 @@
-// src/tools/get_comics/index.ts
 import { ComicDataWrapperSchema } from "../schemas.js";
 import { httpRequest, serializeQueryParams } from "../../utils.js";
 import { GetComicsSchema } from "./schemas.js";

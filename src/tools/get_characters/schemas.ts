@@ -1,4 +1,3 @@
-// src/tools/get_characters/schemas.ts
 import { z } from 'zod';
 
 export const GetCharactersSchema = z.object({
