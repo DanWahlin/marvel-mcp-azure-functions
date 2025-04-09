@@ -1,0 +1,9 @@
+*.js.map
+node_modules
+test
+*.md
+.git*
+.vscode
+__azurite_db*__.json
+__blobstorage__
+__queuestorage__
