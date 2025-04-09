@@ -6,14 +6,13 @@
 
 [![Open project in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open-blue?style=flat-square&logo=github)](https://codespaces.new/danwahlin/marvel-mcp?hide_repo_select=true&ref=main&quickstart=true)
 ![Node version](https://img.shields.io/badge/Node.js->=20-3c873a?style=flat-square)
-[![smithery badge](https://smithery.ai/badge/@DanWahlin/marvel-mcp)](https://smithery.ai/server/@DanWahlin/marvel-mcp)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 [Features](#features) • [Tools](#tools) • [Setup](#setup) • [Configuring an MCP Host](#configuring-an-mcp-host)
 
 </div>
 
-MCP Server for the [Marvel Developer API](https://developer.marvel.com/documentation/getting_started), enabling interaction with characters and comics data. *The main goal of the project is to show how an MCP server can be used to interact with APIs.*
+MCP Server for the [Marvel Developer API](https://developer.marvel.com/documentation/getting_started), enabling interaction with characters and comics data. *The main goal of the project is to show how an MCP server hosted using Azure Functions can be used to interact with APIs.*
 
 > **Note**: All data used by this MCP server is fetched from the [official Marvel API](https://developer.marvel.com/documentation/getting_started) and owned by Marvel. This project is not affiliated with Marvel in any way.
 
@@ -110,7 +109,7 @@ MCP Server for the [Marvel Developer API](https://developer.marvel.com/documenta
 
 Sign up for a [Marvel Developer API](https://developer.marvel.com/documentation/getting_started) account and get your public and private API keys. 
 
-If you want to run it directly in an MCP host, jump to the [Use with Claude Desktop](#use-with-claude-desktop) or [Use with GitHub Copilot](#use-with-github-copilot) sections.
+If you want to run it directly in an MCP host, jump to the [Use with GitHub Copilot](#use-with-github-copilot) or [Use with Claude Desktop](#use-with-claude-desktop) sections.
 
 ### Run the Server Locally with MCP Inspector
 
@@ -119,18 +118,24 @@ If you'd like to run MCP Inspector locally to test the server, follow these step
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/DanWahlin/marvel-mcp-server
+    git clone https://github.com/DanWahlin/marvel-mcp-azure-functions
     ```
 
-1. Rename `.env.template ` to `.env`.
+1. Update the `local.settings.json` file with your Marvel API keys and the API URL.
 
-1. Add your Marvel API public and private keys to the `.env` file.
-
-    ```bash
-    MARVEL_PUBLIC_KEY=YOUR_PUBLIC_KEY
-    MARVEL_PRIVATE_KEY=YOUR_PRIVATE_KEY
-    MARVEL_API_BASE=https://gateway.marvel.com/v1/public
+    ```json
+    {
+      "IsEncrypted": false,
+      "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "node",
+        "MARVEL_PUBLIC_KEY": "YOUR_PUBLIC_KEY",
+        "MARVEL_PRIVATE_KEY": "YOUR_PRIVATE_KEY",
+        "MARVEL_API_BASE": "https://gateway.marvel.com/v1/public"
+      }
+    }
     ```
+
 1. Install the required dependencies and build the project.
 
     ```bash
@@ -138,14 +143,25 @@ If you'd like to run MCP Inspector locally to test the server, follow these step
     npm run build
     ```
 
-1. (Optional) To try out the server using MCP Inspector run the following command:
+1. Start the Azure Functions host locally:
+
+    ```bash
+    npm start
+    ```
+
+1. (Optional) To try out the MCP server using MCP Inspector, run the following command:
 
     ```bash
     # Start the MCP Inspector
     npx @modelcontextprotocol/inspector node build/index.js
     ```
 
-    Visit the MCP Inspector URL shown in the console in your browser. Change `Arguments` to `dist/index.js` and select `Connect`. Select `List Tools` to see the available tools.
+    Visit the MCP Inspector URL shown in the console in your browser:
+    - Change `Transport Type` to `SSE`.
+    - Enter `http://0.0.0.0:7071/runtime/webhooks/mcp/sse` for the URL.
+    - Select `Connect` the button.
+    - Select `List Tools`.
+    - Select a tool to try it out.
 
 <a name="configuring-an-mcp-host"></a>
 ## Configuring an MCP Host
@@ -158,33 +174,13 @@ Add the following to your `claude_desktop_config.json`:
 {
   "mcpServers": {
     "marvel-mcp": {
-      "type": "stdio",
-      "command": "npx",
-      // "command": "node",
-      "args": [
-        "-y",
-        "@codewithdan/marvel-mcp"
-        // "/PATH/TO/marvel-mcp/dist/index.js"
-      ],
-      "env": {
-        "MARVEL_PUBLIC_KEY": "YOUR_PUBLIC_KEY",
-        "MARVEL_PRIVATE_KEY": "YOUR_PRIVATE_KEY",
-        "MARVEL_API_BASE": "https://gateway.marvel.com/v1/public"
-      }
+      "type": "sse",
+      "url": "http://0.0.0.0:7071/runtime/webhooks/mcp/sse"
     }
   }
 }
 ```
-
-#### Installing via Smithery
-
-To install Marvel MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@DanWahlin/marvel-mcp):
-
-```bash
-npx -y @smithery/cli install @DanWahlin/marvel-mcp --client claude
-```
-
-### Use with GitHub Copilot (VS Code Insiders)
+### Use with GitHub Copilot in VS Code
 
 > **Note**: If you already have the MCP server enabled with Claude Desktop, add `chat.mcp.discovery.enabled: true` in your VS Code settings and it will discover existing MCP server lists.
 
@@ -195,18 +191,8 @@ If you want to associate the MCP server with a specific repo, create a `.vscode/
      "inputs": [],
      "servers": {
         "marvel-mcp": {
-            "command": "npx",
-            // "command": "node",
-            "args": [
-                "-y",
-                "@codewithdan/marvel-mcp"
-                // "/PATH/TO/marvel-mcp/dist/index.js"
-            ],
-            "env": {
-                "MARVEL_PUBLIC_KEY": "YOUR_PUBLIC_KEY",
-                "MARVEL_PRIVATE_KEY": "YOUR_PRIVATE_KEY",
-                "MARVEL_API_BASE": "https://gateway.marvel.com/v1/public"
-            }
+          "type": "sse",
+          "url": "http://0.0.0.0:7071/runtime/webhooks/mcp/sse"
         }
      }
    }
@@ -217,24 +203,29 @@ If you want to associate the MCP server with all repos, add the following to you
    ```json
   "mcp": {
     "servers": {
-        "marvel-mcp": {
-            "command": "npx",
-            // "command": "node",
-            "args": [
-                "-y",
-                "@codewithdan/marvel-mcp"
-                // "/PATH/TO/marvel-mcp/dist/index.js"
-            ],
-            "env": {
-                "MARVEL_PUBLIC_KEY": "YOUR_PUBLIC_KEY",
-                "MARVEL_PRIVATE_KEY": "YOUR_PRIVATE_KEY",
-                "MARVEL_API_BASE": "https://gateway.marvel.com/v1/public"
-            }
-        },
+      "marvel-mcp": {
+        "type": "sse",
+        "url": "http://0.0.0.0:7071/runtime/webhooks/mcp/sse"
+      }
     }
-  },
-  "chat.mcp.discovery.enabled": true,
+  }
    ```
+
+## Deploy to Azure for Remote MCP
+
+Run this [azd](https://aka.ms/azd) command to provision the function app, with any required Azure resources, and deploy your code:
+
+```shell
+azd up
+```
+
+You can opt-in to a VNet being used in the sample. To do so, do this before `azd up`
+
+```bash
+azd env set VNET_ENABLED true
+```
+
+Additionally, [API Management]() can be used for improved security and policies over your MCP Server, and [App Service built-in authentication](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) can be used to set up your favorite OAuth provider including Entra.  
 
 ### Using Tools in GitHub Copilot
 
