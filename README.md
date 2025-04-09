@@ -229,7 +229,7 @@ Additionally, [API Management]() can be used for improved security and policies 
 
 ### Using Tools in GitHub Copilot
 
-1. Now that the mcp server is discoverable, open GitHub Copilot and select the `Agent` mode (not `Chat` or `Edits`).
+1. Now that the mcp server is discoverable, open GitHub Copilot and select `Agent` mode (not `Ask` or `Edit`).
 2. Select the "refresh" button in the Copilot chat text field to refresh the server list.
 3. Select the "🛠️" button to see all the possible tools, including the ones from this repo.
 4. Put a question in the chat that would naturally invoke one of the tools, for example: 
