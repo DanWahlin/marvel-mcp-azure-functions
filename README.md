@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/danwahlin-marvel-mcp-azure-functions-badge.png)](https://mseep.ai/app/danwahlin-marvel-mcp-azure-functions)
+
 <div align="center">
 
 <img src="./images/captain-america.jpg" alt="" align="center" height="96" />
